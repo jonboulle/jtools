@@ -1,0 +1,9 @@
+[user]
+	name = Jonathan Boulle
+	email = jonathanboulle@gmail.com
+[push]
+	default = simple
+[core]
+	editor = vim
+[color]
+	ui = auto
