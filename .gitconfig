@@ -7,3 +7,8 @@
 	editor = vim
 [color]
 	ui = auto
+[alias]
+	co = checkout
+	ci = commit
+	ca = commit -a
+	st = status -sb
