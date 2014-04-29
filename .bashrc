@@ -31,6 +31,8 @@ add_to_path ()
     export PATH=$PATH:${1}
 }
 
+shopt -s direxpand
+
 export GOROOT=$HOME/go
 add_to_path "$HOME/gsutil"
 add_to_path "$GOROOT/bin"
