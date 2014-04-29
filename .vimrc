@@ -8,11 +8,13 @@ call vundle#rc()
 " Configure Vundle plugins
 Plugin 'gmarik/vundle'                 " let Vundle manage Vundle - required
 Plugin 'plasticboy/vim-markdown'       " syntax highlighting for markdown
-Plugin 'jnwhiteh/vim-golang'           " syntax highlighting for golang
+" Plugin 'jnwhiteh/vim-golang'           " syntax highlighting for golang
 Plugin 'Valloric/YouCompleteMe'        " autocompletion
+Plugin 'Blackrush/vim-gocode'          " autocompletion + syntax for golang
 Plugin 'airblade/vim-gitgutter'	       " git diff status in the gutter
 Plugin 'scrooloose/nerdtree'           " file browser
 let g:vim_markdown_folding_disabled=1  " never fold with markdown
+let g:gitgutter_sign_column_always=1   " always show the gitgutter column
 
 " Display
 colorscheme ron
@@ -29,6 +31,14 @@ set showcmd           " display incomplete commands
 set showmatch         " show matching parenthesis
 let g:is_posix = 1    " don't highlight $(...) as error
 set wrap              " wrap text display
+
+" Don't show the preview window for omni-completion
+set completeopt-=preview
+
+" When the auto-complete menu is visible, make enter accept the currently
+" highlighted suggestion
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 
 " Status line
 let &statusline = ''
