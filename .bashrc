@@ -19,8 +19,15 @@ txtcyn="\e[0;96m" # Cyan
 txtwht="\e[0;97m" # White
 txtrst="\e[0m"    # Text Reset
 
+alias s=ssh
+
 alias vi=vim
 alias v=vim
+
+alias g=git
+alias gp='git pull'
+
+__git_complete g __git_main
 
 add_to_path ()
 {
