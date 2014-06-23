@@ -13,8 +13,10 @@ Plugin 'Valloric/YouCompleteMe'        " autocompletion
 Plugin 'Blackrush/vim-gocode'          " autocompletion + syntax for golang
 Plugin 'airblade/vim-gitgutter'	       " git diff status in the gutter
 Plugin 'scrooloose/nerdtree'           " file browser
+Plugin 'wincent/Command-T'	       " intelligent file opener
 let g:vim_markdown_folding_disabled=1  " never fold with markdown
 let g:gitgutter_sign_column_always=1   " always show the gitgutter column
+let g:gofmt_command='goimports'        " use goimports in place of gofmt
 
 " Display
 colorscheme ron
@@ -32,6 +34,16 @@ set showmatch         " show matching parenthesis
 let g:is_posix = 1    " don't highlight $(...) as error
 set wrap              " wrap text display
 
+" Highlight tabs and 2+spaces (or trailing whitespace)
+autocmd ColorScheme * highlight Whitespace cterm=underline gui=underline ctermbg=NONE guibg=NONE ctermfg=darkgreen
+highlight Whitespace cterm=underline gui=underline ctermbg=NONE guibg=NONE ctermfg=darkgreen
+call matchadd('Whitespace', '  \+')
+call matchadd('Whitespace', ' \+$')
+autocmd ColorScheme * highlight Tabspace cterm=underline gui=underline ctermbg=NONE guibg=NONE ctermfg=darkblue
+highlight Tabspace cterm=underline gui=underline ctermbg=NONE guibg=NONE ctermfg=darkblue
+call matchadd('Tabspace', '\t')
+command Stripbs :%s/\s\+$//
+
 " Don't show the preview window for omni-completion
 set completeopt-=preview
 
@@ -39,6 +51,8 @@ set completeopt-=preview
 " highlighted suggestion
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" Shortcuts
+nnoremap ; :
 
 " Status line
 let &statusline = ''
@@ -62,9 +76,10 @@ nmap <C-l> :set invnumber<CR>
 " Toggle NERDTree
 " noremap <C-M> :NERDTreeToggle<CR>
 
-
 " Hide buffers instead of closing them
 set hidden
+noremap <C-L> :bnext<CR>
+noremap <C-H> :bprevious<CR>
 
 set autoindent	      " copy indent from current line when starting a new line
 filetype plugin indent on
@@ -82,7 +97,7 @@ noremap gj gj
 noremap gk gk
 
 " Allow backspacing over autoindents, line breaks, and start of an insert
-set backspace=indent,eol,start 
+set backspace=indent,eol,start
 
 set whichwrap&
 set whichwrap+=<,>,[,],h,l " allow these characters to wrap around to next line
