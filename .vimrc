@@ -12,15 +12,28 @@ Plugin 'plasticboy/vim-markdown'       " syntax highlighting for markdown
 Plugin 'Valloric/YouCompleteMe'        " autocompletion
 Plugin 'Blackrush/vim-gocode'          " autocompletion + syntax for golang
 Plugin 'airblade/vim-gitgutter'	       " git diff status in the gutter
-Plugin 'scrooloose/nerdtree'           " file browser
+" Plugin 'scrooloose/nerdtree'           " file browser
 Plugin 'wincent/Command-T'	       " intelligent file opener
+Plugin 'tpope/vim-fugitive'	       " git wrapper
+Plugin 'rking/ag.vim'                  " wrap ag
+"Plugin 'rhysd/vim-go-impl'	       " automatically generate method stubs for interfaces
 let g:vim_markdown_folding_disabled=1  " never fold with markdown
 let g:gitgutter_sign_column_always=1   " always show the gitgutter column
 let g:gofmt_command='goimports'        " use goimports in place of gofmt
 
+" Be able to toggle goimports on and off
+command Gi let g:gofmt_command='goimports'
+command Gf let g:gofmt_command='gofmt'
+cnoreabbrev gi Gi
+cnoreabbrev gf Gf
+
+" Shortcut to Ag
+cnoreabbrev ag Ag
+
+
 " Display
 colorscheme ron
-set guifont=Monospace\ 14
+set guifont=Monospace\ 16
 syntax on             " syntax highlighing
 set ruler             " show the cursor position all the time
 set visualbell t_vb=  " turn off error beep/flash
@@ -69,6 +82,8 @@ let &statusline .= '%4P' " Percentage through file of displayed window.
 set hlsearch          " highlight search terms
 set incsearch         " show search matches as you type
 set smartcase         " ignore case if search pattern is all lowercase, case-sensitive otherwise
+
+set backupdir=$HOME/.backup
 
 " Toggle line numbers
 nmap <C-l> :set invnumber<CR>
