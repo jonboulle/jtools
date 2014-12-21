@@ -1,5 +1,19 @@
-! Swap caps lock and escape
+! Using keycodes should be portable as long as
+! /usr/share/X11/xkb/keycodes/evdev is being used
+!
+! keycode 9 = ESC
+! keycode 49 = grave/tilde
+! keycode 66 = capslock
+! keycode 108 = Right Alt
+!
 remove Lock = Caps_Lock
-keysym Escape = Caps_Lock
-keysym Caps_Lock = Escape
-add Lock = Caps_Lock
+keycode 9 = grave asciitilde grave asciitilde
+keycode 66 = Escape Caps_Lock
+keycode 108 = Multi_key
+
+! Old way - using keysyms
+! Swap caps lock and escape
+! remove Lock = Caps_Lock
+! keysym Escape = Caps_Lock
+! keysym Caps_Lock = Escape
+! add Lock = Caps_Lock

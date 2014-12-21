@@ -8,6 +8,10 @@ fi
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+# avoid in history
+export HISTCONTROL=ignoredups:erasedups  
+# append instead of overwriting history on terminal exit
+shopt -s histappend
 
 txtblk="\e[0;90m" # Black
 txtred="\e[0;91m" # Red
@@ -26,8 +30,16 @@ alias v=vim
 
 alias g=git
 alias gp='git pull'
+alias gpush='git push'
+alias b='./build'
+alias t='./test'
+alias c='./cover'
+
+alias hpr='hub pull-request'
 
 __git_complete g __git_main
+
+alias va='vagrant'
 
 add_to_path ()
 {
