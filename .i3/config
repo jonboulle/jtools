@@ -10,9 +10,19 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # keyring daemon
-exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg
+# # should be handled by Xsession now 
+# exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg
+#
+# export SSH_AUTH_SOCK GPG_AGENT_INFO GNOME_KEYRING_CONTROL GNOME_KEYRING_PID
+# export SSH_AGENT_PID=$GNOME_KEYRING_PID
+#
 exec /usr/bin/nm-applet
-exec syndaemon -d -i 0.3
+exec syndaemon -d -i 0.2
+exec synclient TapButton1=1
+exec synclient PalmDetect=1
+exec synclient HorizTwoFingerScroll=1
+exec synclient SingleTapTimeout=0
+exec /usr/libexec/polkit-gnome-authentication-agent-1
 
 set $mod Mod4
 set $alt Mod1
@@ -130,23 +140,22 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+bindsym $mod+p exec "pkill --signal SIGUSR2 pomodogo"
+bindsym $mod+Shift+p exec "pkill --signal SIGUSR1 pomodogo"
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
@@ -156,29 +165,36 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# lock the screen
 bindsym Ctrl+Mod1+l exec slock
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3status | i3status-dumbw wlp2s0
 	position top
 	tray_output primary
 }
 
+
+# Scratchpad
+bindsym $mod+n move scratchpad
+bindsym $mod+m scratchpad show
+
+# Brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
+# Volume keys
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 -- toggle && killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 -- +5% && killall -SIGUSR1 i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -- -5% && killall -SIGUSR1 i3status
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /home/jon/bin/toggletouchpad.sh
+
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
-bindsym $mod+p exec touch /home/jon/reload_rdio
