@@ -1,0 +1,4 @@
+#!/bin/bash
+
+authors=$(git log $@ --pretty=format:"%an" | sort | uniq | tr '\n' ',' | sed -e 's#,#, #g')
+echo ${authors:0:-2}
