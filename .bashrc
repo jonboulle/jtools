@@ -24,7 +24,7 @@ txtwht="\e[0;97m" # White
 txtrst="\e[0m"    # Text Reset
 
 alias s=ssh
-
+alias m=mutt
 alias vi=vim
 alias v=vim
 
@@ -41,6 +41,11 @@ __git_complete g __git_main
 
 alias va='vagrant'
 
+a () 
+{
+    ag $@ | fpp
+}
+
 add_to_path ()
 {
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]
@@ -53,8 +58,8 @@ add_to_path ()
 shopt -s direxpand
 
 export GOROOT=$HOME/go
-add_to_path "$HOME/gsutil"
 add_to_path "$GOROOT/bin"
+add_to_path "$HOME/rust/bin"
 add_to_path "$HOME/git/depot_tools"
 export PATH
 
@@ -62,5 +67,6 @@ git_branch() {
 	git rev-parse 2>/dev/null && echo -en " $(git rev-parse --symbolic-full-name --abbrev-ref HEAD 2>/dev/null)"
 }
 
+export TERMINAL="gnome-terminal"
 export SUDO_PS1=": \[${txtred}\]\h\[${txtrst}\] \[${txtwht}\]\W\[${txtrst}\] #; "
 export PS1=": \[${txtgrn}\]\h\[${txtrst}\] \[${txtwht}\]\W\[${txtrst}\]\[${txtylw}\]\$(git_branch)\[${txtrst}\] ; "
