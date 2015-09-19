@@ -2,24 +2,33 @@ set nocompatible   " always be viM
 filetype off
 
 " Initialize Vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " Configure Vundle plugins
-Plugin 'gmarik/vundle'                 " let Vundle manage Vundle - required
+Plugin 'VundleVim/Vundle.vim'          " let Vundle manage Vundle - required
 Plugin 'plasticboy/vim-markdown'       " syntax highlighting for markdown
 " Plugin 'jnwhiteh/vim-golang'           " syntax highlighting for golang
-Plugin 'Valloric/YouCompleteMe'        " autocompletion
-Plugin 'Blackrush/vim-gocode'          " autocompletion + syntax for golang
+" Plugin 'Valloric/YouCompleteMe'        " autocompletion
+" Plugin 'Blackrush/vim-gocode'          " autocompletion + syntax for golang
+Plugin 'fatih/vim-go'                  " ???
+" Plugin 'nsf/gocode', {'rtp': 'vim/'}   " seems to be more maintained than vim-gocode
+Plugin 'rust-lang/rust.vim'            " rust syntax et al
 Plugin 'airblade/vim-gitgutter'	       " git diff status in the gutter
+Plugin 'bling/vim-airline'             " better status line
 " Plugin 'scrooloose/nerdtree'           " file browser
 Plugin 'wincent/Command-T'	       " intelligent file opener
 Plugin 'tpope/vim-fugitive'	       " git wrapper
 Plugin 'rking/ag.vim'                  " wrap ag
+Plugin 'elzr/vim-json'		       " JSON highlighting
 "Plugin 'rhysd/vim-go-impl'	       " automatically generate method stubs for interfaces
+let g:vim_json_syntax_conceal = 0      " don't hide quotes etc in JSON
 let g:vim_markdown_folding_disabled=1  " never fold with markdown
 let g:gitgutter_sign_column_always=1   " always show the gitgutter column
 let g:gofmt_command='goimports'        " use goimports in place of gofmt
+let g:go_doc_keywordprg_enabled = 1    " don't bind K
+
+call vundle#end()
 
 " Be able to toggle goimports on and off
 command Gi let g:gofmt_command='goimports'
@@ -68,15 +77,21 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nnoremap ; :
 
 " Status line
-let &statusline = ''
-let &statusline .= '%3n ' " Buffer number
-let &statusline .= '%<%f ' " Filename
-let &statusline .= '%m%r%h%w' " Modified flag, Readonly flag, Preview flag
-"let &statusline .= '%{"[" . (&fileencoding != "" ? &fileencoding :
+" let &statusline = ''
+" let &statusline .= '%3n ' " Buffer number
+" let &statusline .= '%<%f ' " Filename
+" let &statusline .= '%m%r%h%w' " Modified flag, Readonly flag, Preview flag
+" let &statusline .= '%{"[" . (&fileencoding != "" ? &fileencoding :
 " &encoding) . "][" . &fileformat . "][" . &filetype . "]"}'
-let &statusline .= '%=' " Spaces
-let &statusline .= '%l,%c%V' " Line number, Column number, Virtual column number
-let &statusline .= '%4P' " Percentage through file of displayed window.
+" let &statusline .= '%=' " Spaces
+" let &statusline .= '%l,%c%V' " Line number, Column number, Virtual column number
+" let &statusline .= '%4P' " Percentage through file of displayed window.
+
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Search options
 set hlsearch          " highlight search terms
@@ -93,8 +108,13 @@ nmap <C-l> :set invnumber<CR>
 
 " Hide buffers instead of closing them
 set hidden
-noremap <C-L> :bnext<CR>
-noremap <C-H> :bprevious<CR>
+noremap <C-J> :bnext<CR>
+noremap <C-K> :bprevious<CR>
+noremap <C-Q> :bdelete<CR>
+
+" Move between splits
+noremap <C-L> <C-w><C-l>
+noremap <C-H> <C-w><C-h>
 
 set autoindent	      " copy indent from current line when starting a new line
 filetype plugin indent on
@@ -116,6 +136,12 @@ set backspace=indent,eol,start
 
 set whichwrap&
 set whichwrap+=<,>,[,],h,l " allow these characters to wrap around to next line
+
+" Tabs -> spaces for Python, JSON, C
+autocmd FileType * set noexpandtab
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+autocmd FileType json set tabstop=4|set shiftwidth=4|set expandtab
+autocmd FileType c set tabstop=8|set shiftwidth=8|set expandtab
 
 filetype on
 set secure
