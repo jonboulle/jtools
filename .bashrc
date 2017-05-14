@@ -35,8 +35,11 @@ alias b='./build'
 alias t='./test'
 alias c='./cover'
 
+alias fork='hub fork && g pu && git co -b upstream-master --track origin/master'
+
 alias hpr='hub pull-request'
 
+. /usr/share/bash-completion/completions/git
 __git_complete g __git_main
 
 alias va='vagrant'
@@ -67,6 +70,13 @@ git_branch() {
 	git rev-parse 2>/dev/null && echo -en " $(git rev-parse --symbolic-full-name --abbrev-ref HEAD 2>/dev/null)"
 }
 
+go_path() {
+	[ -n "${GOPATH}" ] && echo -en "${GOPATH} "
+}
+
 export TERMINAL="gnome-terminal"
 export SUDO_PS1=": \[${txtred}\]\h\[${txtrst}\] \[${txtwht}\]\W\[${txtrst}\] #; "
-export PS1=": \[${txtgrn}\]\h\[${txtrst}\] \[${txtwht}\]\W\[${txtrst}\]\[${txtylw}\]\$(git_branch)\[${txtrst}\] ; "
+export PS1=": \[${txtgrn}\]\h\[${txtrst}\] \[${txtcyn}\]\$(go_path)\[${txtrst}\]\[${txtwht}\]\W\[${txtrst}\]\[${txtylw}\]\$(git_branch)\[${txtrst}\] ; "
+
+# save and reload history every time
+export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
