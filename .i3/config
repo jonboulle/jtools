@@ -51,7 +51,9 @@ bindsym $mod+Shift+q kill
 
 # bindsym $mod+d exec dmenu_run
 # # j4-dmenu-desktop is a faster replacement for i3-dmenu-desktop; both wrap dmenu and only display applications w/.desktop files
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id j4-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id rofi -dmenu
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # toggle connected displays between {int, int+ext mirror, ext}
 # https://github.com/jonboulle/jtools/blob/master/bin/toggledisplays.sh
@@ -169,7 +171,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # lock the screen
-bindsym Ctrl+$alt+l exec slock
+#bindsym Ctrl+$alt+l exec --no-startup-id strace -o /tmp/bla slock
+bindsym Ctrl+$alt+l exec --no-startup-id i3lock
 
 # screenshot
 bindsym --release Ctrl+$alt+s exec --no-startup-id import /tmp/latest-screenshot.png
@@ -177,7 +180,8 @@ bindsym --release Ctrl+$alt+s exec --no-startup-id import /tmp/latest-screenshot
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command ~/git/dumbw/dumbw | i3status | i3status-dumbw wlp2s0
+        status_command py3status
+#        status_command ~/git/dumbw/dumbw | i3status | i3status-dumbw wlp2s0
 	position top
 	tray_output primary
 }
@@ -192,9 +196,9 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # Volume keys
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 -- toggle && killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 -- +5% && killall -SIGUSR1 i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -- -5% && killall -SIGUSR1 i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle && killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5% && killall -SIGUSR1 i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5% && killall -SIGUSR1 i3status
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /home/jon/bin/toggletouchpad.sh
