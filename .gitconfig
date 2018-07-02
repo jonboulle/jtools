@@ -2,16 +2,26 @@
 	name = Jonathan Boulle
 	email = jonathanboulle@gmail.com
 [push]
-	default = simple
+	default = upstream
 [core]
-	editor = vim
+	editor = /usr/bin/vim
 [color]
 	ui = auto
 [alias]
+	branch-name = !git rev-parse --abbrev-ref HEAD
 	br = branch
-	co = checkout
+	brt = branch --sort=committerdate
+	ca = commit -am
 	ci = commit
-	ca = commit -a
+	co = checkout
+	d = diff
 	p = pull
+	pf = push --force
+	pu = !CURRENT=$(git branch-name) && git push --set-upstream jonboulle $CURRENT
+	ri = rebase -i
+	ru = rebase -i upstream-master
+	s = status
 	st = status -sb
 	stat = status
+[commit]
+	template = /home/jon/.gittemplate
