@@ -23,10 +23,12 @@ txtcyn="\e[0;96m" # Cyan
 txtwht="\e[0;97m" # White
 txtrst="\e[0m"    # Text Reset
 
+alias k=kubectl
 alias s=ssh
 alias m=mutt
 alias vi=vim
 alias v=vim
+#alias v=e
 
 alias g=git
 alias gp='git pull'
@@ -60,8 +62,8 @@ add_to_path ()
 
 shopt -s direxpand
 
-export GOROOT=$HOME/go
-add_to_path "$GOROOT/bin"
+#export GOROOT=$HOME/go
+#add_to_path "$GOROOT/bin"
 add_to_path "$HOME/rust/bin"
 add_to_path "$HOME/git/depot_tools"
 export PATH
